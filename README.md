@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kouter Studios — Diseño y Desarrollo</title>
+
+  <!-- Tipografía (usa fuentes del sistema; si quieres, sustituye por Google Fonts) -->
+  <style>
+    :root{
+      --bg-dark:#0f1720;
+      --panel-dark: rgba(255,255,255,0.03);
+      --muted-dark:#9aa4b2;
+      --accent: #2b6cb0;
+      --accent-2: #1e3a8a;
+      --bg-light: #f7f7f8;
+      --panel-light: #ffffff;
+      --muted-light: #4b5563;
+      --text-light: #0b1220;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 12px;
+    }
+
+    /* Reset básico */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body,#app{height:100%}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg-dark);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      transition:background .35s ease, color .35s ease;
+    }
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    /* Contenedor */
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo-box{
+      width:54px;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      box-shadow:0 6px 18px rgba(16,30,50,0.45);
+      flex-shrink:0;
+    }
+    .logo-box svg{width:26px;height:26px;fill:white}
+    .brand-text{line-height:1}
+    .brand-text .kouter{font-weight:800;letter-spacing:0.6px;font-size:18px}
+    .brand-text .studios{font-size:10px;opacity:.85;letter-spacing:2px;text-transform:uppercase}
+
+    nav{display:flex;align-items:center;gap:18px}
+    nav a{font-size:14px;color:var(--muted-dark);opacity:.95}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;
+      border:1px solid rgba(255,255,255,0.06);background:transparent;font-size:14px;cursor:pointer;
+      transition:transform .16s ease,background .16s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:none;box-shadow:0 8px 20px rgba(30,58,138,0.2)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+
+    /* Hero */
+    .hero{padding:36px 0;display:grid;grid-template-columns:1fr;gap:18px}
+    h1{font-size:44px;line-height:1.02;margin-bottom:8px}
+    .accent{color:var(--accent)}
+    p.lead{max-width:72ch;color:var(--muted-dark);margin-bottom:12px}
+
+    /* Chips microinteractions */
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{
+      padding:8px 12px;border-radius:999px;background:var(--glass);
+      backdrop-filter: blur(4px);font-size:13px;cursor:default;transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .chip:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(2,6,23,0.4)}
+
+    /* Sections */
+    section{padding:28px 0;border-top:1px solid rgba(255,255,255,0.03)}
+    .section-title{font-size:26px;margin-bottom:8px}
+    .muted{color:var(--muted-dark);font-size:15px}
+
+    /* Portfolio grid */
+    .grid{display:grid;gap:16px}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(2,6,23,0.6)}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.02);display:inline-block}
+
+    /* Studio features */
+    .features{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+
+    /* Manifesto blocks */
+    .manifesto-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .manifesto-item{padding:14px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
+
+    /* Contact */
+    .contact-grid{display:grid;gap:18px;grid-template-columns:1fr 420px}
+    .contact-panel{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .form-field{display:flex;flex-direction:column;margin-bottom:10px}
+    input,textarea{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    textarea{min-height:120px;resize:vertical}
+
+    /* Footer */
+    footer{padding:18px 0;color:var(--muted-dark);font-size:13px;text-align:center}
+
+    /* Responsive */
+    @media(min-width:900px){
+      .hero{grid-template-columns:1fr 420px;align-items:center}
+      .hero-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    }
+    @media(max-width:899px){
+      nav{display:none}
+    }
+
+    /* LIGHT THEME */
+    body.light{
+      background:var(--bg-light);color:var(--text-light);
+    }
+    body.light .muted{color:var(--muted-light)}
+    body.light .card, body.light .contact-panel, body.light .hero-card{background:var(--panel-light);border:1px solid rgba(12,18,26,0.04);box-shadow:0 6px 18px rgba(13,18,25,0.04)}
+    body.light .chip{background:rgba(16,24,32,0.02)}
+    body.light .logo-box{box-shadow:none}
+    body.light .btn{border:1px solid rgba(2,6,23,0.06)}
+  </style>
+</head>
+<body>
+  <div id="app" class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="logo-box" aria-hidden="true">
+          <!-- Símbolo simple: K geométrico (SVG inline para reemplazar cuando quieras) -->
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 2h4l6 7-6 7H3V2zM11 2h10v4h-6l6 6-6 6h6v4H11V2z"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="kouter">KOUTER</div>
+          <div class="studios">STUDIOS</div>
+        </div>
+      </div>
+
+      <nav aria-label="Principal">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#estudio">Estudio</a>
+        <a href="#manifiesto">Manifiesto</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:10px">
+        <button id="themeToggle" class="btn btn-ghost" aria-pressed="false" title="Alternar modo">Modo claro</button>
+        <a href="#contacto" class="btn btn-primary">Contáctanos</a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div>
+          <h1 id="heroTitle">Diseño que piensa. <span class="accent">Código que siente.</span></h1>
+          <p class="lead muted">Kouter Studios fusiona estética y arquitectura digital. Construimos productos que comunican con rigor y poesía — sólidos, escalables y listos para mercado.</p>
+
+          <div style="display:flex;gap:12px;margin-top:16px">
+            <a href="#portfolio" class="btn btn-primary">Ver trabajos</a>
+            <a href="#contacto" class="btn btn-ghost">Solicitar cotización</a>
+          </div>
+
+          <div style="margin-top:18px" class="chips" aria-hidden="true">
+            <div class="chip">Enterprise-grade</div>
+            <div class="chip">Design-led</div>
+            <div class="chip">Escalable</div>
+          </div>
+        </div>
+
+        <div class="hero-card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+          <strong style="font-size:14px;letter-spacing:0.6px">Clientes recientes</strong>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="chip">Andes Legal</span>
+            <span class="chip">Chocobit</span>
+            <span class="chip">Lumen Studio</span>
+            <span class="chip">Beta Construct</span>
+          </div>
+
+          <div style="margin-top:auto;width:100%">
+            <div style="height:120px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;color:var(--muted-dark)">
+              Mockup / Imagen de proyecto
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section id="portfolio" aria-labelledby="portfolioTitle">
+        <h2 id="portfolioTitle" class="section-title">Portafolio</h2>
+        <p class="muted">Selección curada de proyectos que combinan producto, marca y tecnología.</p>
+
+        <div class="grid cols-2" style="margin-top:18px">
+          <article class="card" role="article" aria-label="Plataforma Corporativa">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <h3 style="font-size:18px;margin-bottom:6px">Plataforma Corporativa</h3>
+                <div class="tag">Web / UI</div>
+              </div>
+              <small class="muted">2025</small>
+            </div>
+            <p class="muted" style="margin-top:10px">Arquitectura de la información, dashboard B2B y controles administrativos con énfasis en seguridad y escalabilidad.</p>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-ghost">Ver case</button>
+              <button class="btn btn-primary">Demo</button>
+            </div>
+          </article>
+
+          <article class="card" role="article" aria-label="Identidad Andes Legal">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <h3 style="font-size:18px;margin-bottom:6px">Identidad Andes Legal</h3>
+                <div class="tag">Branding</div>
+              </div>
+              <small class="muted">2025</small>
+            </div>
+            <p class="muted" style="margin-top:10px">Logotipo, manual de marca, papelería y web institucional con tono sobrio y corporativo.</p>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-ghost">Ver case</button>
+              <button class="btn btn-primary">Ver entrega</button>
+            </div>
+          </article>
+
+          <article class="card" role="article" aria-label="Lumen Studio Reel">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <h3 style="font-size:18px;margin-bottom:6px">Lumen Studio Reel</h3>
+                <div class="tag">Motion</div>
+              </div>
+              <small class="muted">2025</small>
+            </div>
+            <p class="muted" style="margin-top:10px">Intro de marca y assets para redes con animaciones optimizadas para reels y YouTube.</p>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-ghost">Ver video</button>
+              <button class="btn btn-primary">Descargar</button>
+            </div>
+          </article>
+
+          <article class="card" role="article" aria-label="Tour Inmobiliario VR">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <h3 style="font-size:18px;margin-bottom:6px">Tour Inmobiliario VR</h3>
+                <div class="tag">Immersive</div>
+              </div>
+              <small class="muted">2025</small>
+            </div>
+            <p class="muted" style="margin-top:10px">Walkthrough 3D y visualizador AR para previsualizar proyectos en cualquier dispositivo.</p>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-ghost">Ver demo</button>
+              <button class="btn btn-primary">Solicitar cotización</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ESTUDIO -->
+      <section id="estudio" aria-labelledby="estudioTitle">
+        <h2 id="estudioTitle" class="section-title">El estudio</h2>
+        <p class="muted">Equipo híbrido: diseñadores, ingenieros y narradores. Entregamos con disciplina artesanal y procesos reproducibles.</p>
+
+        <div style="margin-top:14px" class="features">
+          <div class="card">Estrategia de producto</div>
+          <div class="card">UX Research</div>
+          <div class="card">Desarrollo Frontend</div>
+          <div class="card">Animación & Motion</div>
+        </div>
+      </section>
+
+      <!-- MANIFIESTO -->
+      <section id="manifiesto" aria-labelledby="manifiestoTitle">
+        <h2 id="manifiestoTitle" class="section-title">Manifiesto</h2>
+        <p class="muted" style="max-width:68ch">Creemos en la belleza funcional: equilibrio entre tradición y futura innovación. El diseño no es decoración; es argumento. El código, un poema con intención.</p>
+
+        <div style="margin-top:16px" class="manifesto-grid">
+          <div class="manifesto-item">Calidad reproducible</div>
+          <div class="manifesto-item">Decisiones basadas en datos</div>
+          <div class="manifesto-item">Entrega puntual</div>
+        </div>
+      </section>
+
+      <!-- CONTACTO -->
+      <section id="contacto" aria-labelledby="contactoTitle">
+        <h2 id="contactoTitle" class="section-title">Contacto</h2>
+        <p class="muted">Hablemos de tu proyecto. Respuesta garantizada en 48h hábiles.</p>
+
+        <div class="contact-grid" style="margin-top:14px">
+          <div class="contact-panel">
+            <strong>Contacto directo</strong>
+            <p class="muted" style="margin-top:8px">Email: hola@kouter.studio<br>Tel: +57 300 000 0000<br>Ubicación: Bogotá, CO</p>
+            <div style="margin-top:12px">
+              <a class="btn btn-primary" href="mailto:hola@kouter.studio">Enviar email</a>
+            </div>
+          </div>
+
+          <form class="contact-panel" onsubmit="submitForm(event)">
+            <div class="form-field">
+              <label for="name">Nombre</label>
+              <input id="name" name="name" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-field">
+              <label for="company">Empresa / Proyecto</label>
+              <input id="company" name="company" placeholder="Ej: Andes Legal" />
+            </div>
+            <div class="form-field">
+              <label for="message">Mensaje</label>
+              <textarea id="message" name="message" placeholder="Cuéntanos el alcance" required></textarea>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+              <button type="reset" class="btn btn-ghost">Limpiar</button>
+            </div>
+            <p id="formStatus" style="margin-top:10px;color:var(--muted-dark);font-size:13px"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Kouter Studios — Diseño y Desarrollo. Todos los derechos reservados.
+    </footer>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Fecha en footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tema: oscuro por defecto
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+    function setLightMode(active) {
+      if (active) {
+        body.classList.add('light');
+        themeToggle.textContent = 'Modo oscuro';
+        themeToggle.setAttribute('aria-pressed','true');
+      } else {
+        body.classList.remove('light');
+        themeToggle.textContent = 'Modo claro';
+        themeToggle.setAttribute('aria-pressed','false');
+      }
+    }
+
+    // Persistencia simple en localStorage
+    (function initTheme(){
+      try {
+        const pref = localStorage.getItem('kouter_theme');
+        if(pref === 'light') setLightMode(true);
+        else setLightMode(false);
+      } catch(e) { setLightMode(false); }
+    })();
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = body.classList.contains('light');
+      setLightMode(!isLight);
+      try { localStorage.setItem('kouter_theme', !isLight ? 'light' : 'dark'); } catch(e){}
+    });
+
+    // Simulación de envío de formulario (reemplaza con fetch a tu backend)
+    function submitForm(e){
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.textContent = 'Enviando...';
+      // Simular delay
+      setTimeout(() => {
+        status.textContent = 'Gracias — tu mensaje ha sido recibido. Responderemos en 48h.';
+        e.target.reset();
+      }, 900);
+    }
+
+    // Microinteracciones: botones con ripple ligero (opcional)
+    document.querySelectorAll('.btn').forEach(btn=>{
+      btn.addEventListener('mouseenter', ()=>btn.style.transform='translateY(-3px)');
+      btn.addEventListener('mouseleave', ()=>btn.style.transform='translateY(0)');
+    });
+  </script>
+</body>
+</html>
